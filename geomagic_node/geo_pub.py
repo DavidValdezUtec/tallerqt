@@ -6,6 +6,8 @@ from omni_msgs.msg import OmniState, OmniFeedback
 class GeoNode(Node):
     def __init__(self):
         super().__init__('geo_node')
+        self.parameter_declarado = self.declare_parameter('modo', 'cubo')
+        self.modo = self.get_parameter('modo').value
         self.subscriber = self.create_subscription(OmniState, '/phantom1/state', self.geo_callback, 10)
         self.publisher = self.create_publisher(OmniFeedback, '/phantom1/force_feedback', 10)
         self.position = [0.0, 0.0, 0.0]
@@ -25,7 +27,17 @@ class GeoNode(Node):
 
         # Aquí integramos la publicación de fuerzas al flujo del programa
         # Llamamos a "cubo" para calcular y devolver las fuerzas de colisión.
-        force_x, force_y, force_z = self.fuera_de_esfera()
+        if self.modo == 'cubo':
+            force_x, force_y, force_z = self.cubo()
+        elif self.modo == 'fuera_de_cubo':
+            force_x, force_y, force_z = self.fuera_de_cubo()
+        elif self.modo == 'esfera':
+            force_x, force_y, force_z = self.esfera()
+        elif self.modo == 'fuera_de_esfera':
+            force_x, force_y, force_z = self.fuera_de_esfera()
+        else:
+            self.get_logger().warn(f"Modo desconocido: {self.modo}. No se aplicarán fuerzas.")
+            return
         self.publish_force_feedback(force_x, force_y, force_z)
 
     def cubo(self): #limitar la movilidad del geoamgic dentro de los limites de un cubo de 0.1m de lado
@@ -108,7 +120,7 @@ class GeoNode(Node):
     def fuera_de_esfera(self):
         kp = 150.0 # rigidez del muro virtual (N/m)
 
-        r = 0.04 # radio de la esfera (en metros)
+        r = 0.06 # radio de la esfera (en metros)
         
         force_x, force_y, force_z = 0.0, 0.0, 0.0
         
