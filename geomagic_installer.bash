@@ -1,5 +1,21 @@
+#!/bin/bash
+
+# Función para imprimir mensajes informativos
+info() {
+    echo "================================================================================"
+    echo "INFO: $1"
+    echo "================================================================================"
+}
+
+
 # --- 3. Instalación de Drivers de Geomagic Touch ---
 sudo apt install -y build-essential cmake git curl
+
+# Instalar paquetes para los programas gráficos del driver
+info "Instalando dependencias gráficas para los drivers..."
+sudo apt update
+sudo apt install -y build-essential libncurses5-dev freeglut3-dev zlib1g-dev libncurses5
+
 info "Instalando drivers de Geomagic Touch..."
 
 # Crear un directorio temporal para las descargas
@@ -96,7 +112,8 @@ DRIVER_BIN_DIR="$TEMP_DRIVER_DIR/TouchDriver_2024_09_19/bin"
 mkdir -p "$LOCAL_TOUCH_BIN_DIR"
 
 if compgen -G "$DRIVER_BIN_DIR/*" > /dev/null; then
-    install -m 0755 "$DRIVER_BIN_DIR"/* "$LOCAL_TOUCH_BIN_DIR/"
+    cp -r "$DRIVER_BIN_DIR"/* "$LOCAL_TOUCH_BIN_DIR/"
+    chmod -R 0755 "$LOCAL_TOUCH_BIN_DIR/"
 else
     echo "ERROR: No se encontraron binarios en $DRIVER_BIN_DIR"
     exit 1
@@ -108,10 +125,7 @@ info "Limpiando archivos de instalación de drivers..."
 cd ~
 rm -rf "$TEMP_DRIVER_DIR"
 
-# Instalar paquetes para los programas gráficos del driver
-info "Instalando dependencias gráficas para los drivers..."
-sudo apt update
-sudo apt install -y build-essential libncurses5-dev freeglut3-dev zlib1g-dev libncurses5
+
 
 # --- 4. Crear accesos directos (.desktop) ---
 info "Creando accesos directos de la interfaz gráfica..."
