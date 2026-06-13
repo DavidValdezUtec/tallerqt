@@ -191,4 +191,15 @@ if [ -n "$DESKTOP_DIR" ] && [ -d "$DESKTOP_DIR" ]; then
     info "Acceso directo creado en: $DESKTOP_DIR"
 fi
 
+echo ""
+info "Instalación completada."
+echo "Para aplicar los cambios de grupos (dialout) y cargar correctamente los controladores, es necesario reiniciar el equipo."
+read -p "¿Deseas reiniciar el equipo ahora? [s/N]: " REBOOT_RESPONSE
+if [[ "$REBOOT_RESPONSE" =~ ^[SsYy]$ ]]; then
+    info "Reiniciando el equipo..."
+    sudo reboot
+else
+    info "Por favor, recuerda reiniciar el equipo manualmente más tarde para poder utilizar el Geomagic Touch."
+fi
+
 
