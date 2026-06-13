@@ -21,7 +21,7 @@ class GeoNode(Node):
         self.quaternion = [msg.pose.orientation.x, msg.pose.orientation.y, msg.pose.orientation.z, msg.pose.orientation.w]
         self.botones = [msg.close_gripper, msg.locked]
         
-        print(f"Position: {self.position}\n Velocity: {self.velocity}\n Quaternion: {self.quaternion}\n Botones: {self.botones}")
+        print(f"Position: \n x: {self.position[0]}\n y: {self.position[1]}\n z: {self.position[2]}\n \n Velocity: \n dx: {self.velocity[0]}\n dy: {self.velocity[1]}\n dz: {self.velocity[2]}\n \n Quaternion: \n x: {self.quaternion[0]}\n y: {self.quaternion[1]}\n z: {self.quaternion[2]}\n w: {self.quaternion[3]}\n Botones: {self.botones} \n")
 
 def main(args=None):
     rclpy.init(args=args)

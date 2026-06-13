@@ -23,7 +23,7 @@ class GeoNode(Node):
         self.quaternion = [msg.pose.orientation.x, msg.pose.orientation.y, msg.pose.orientation.z, msg.pose.orientation.w]
         self.botones = [msg.close_gripper, msg.locked]
         
-        print(f"Position: {self.position}\n Velocity: {self.velocity}\n Quaternion: {self.quaternion}\n Botones: {self.botones}")
+        print(f"Position: \n x: {self.position[0]}\n y: {self.position[1]}\n z: {self.position[2]}\n \n Velocity: \n dx: {self.velocity[0]}\n dy: {self.velocity[1]}\n dz: {self.velocity[2]}\n \n Quaternion: \n x: {self.quaternion[0]}\n y: {self.quaternion[1]}\n z: {self.quaternion[2]}\n w: {self.quaternion[3]}\n Botones: {self.botones} \n")
 
         # Aquí integramos la publicación de fuerzas al flujo del programa
         # Llamamos a "cubo" para calcular y devolver las fuerzas de colisión.
@@ -154,7 +154,7 @@ class GeoNode(Node):
         msg.force.x = max(-3.3, min(3.3, float(force_x)))
         msg.force.y = max(-3.3, min(3.3, float(force_y)))
         msg.force.z = max(-3.3, min(3.3, float(force_z)))
-        self.get_logger().info(f"Fuerza publicada: [{msg.force.x:.2f}, {msg.force.y:.2f}, {msg.force.z:.2f}]")
+        self.get_logger().info(f"Fuerza publicada: \n F_x: {msg.force.x:.2f}\n F_y: {msg.force.y:.2f}\n F_z: {msg.force.z:.2f} \n")
 
         self.publisher.publish(msg)
         
