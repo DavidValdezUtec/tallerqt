@@ -66,11 +66,10 @@ cd ..
 curl -L -o openhaptics_developer.tar.gz "https://s3.amazonaws.com/dl.3dsystems.com/binaries/support/downloads/KB+Files/Open+Haptics/openhaptics_3.4-0-developer-edition-amd64.tar.gz"
 tar -xzvf openhaptics_developer.tar.gz
 cd openhaptics_3.4-0-developer-edition-amd64
-echo "ATENCIÓN: La siguiente instalación es interactiva."
-echo "Deberás presionar 'y' para continuar y 'q' para cancelar el reinicio al final."
-read -p "Presiona Enter para iniciar la instalación de OpenHaptics..."
+info "Instalando OpenHaptics de forma desatendida..."
 set +e
-sudo ./install
+# Pasamos 'y' (para aceptar licencias/paquetes) y luego 'q' (para cancelar el reboot)
+echo -e "y\nq\n" | sudo ./install
 OPENHAPTICS_INSTALL_STATUS=$?
 set -e
 
